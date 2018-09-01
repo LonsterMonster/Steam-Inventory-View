@@ -5,8 +5,6 @@
 
 A php-powered web page that shows a Steam user's Counter Strike: Global Offensive items.
 
-![](https://imgur.com/a/R2sEi9l)
-
 ## Hacking / Changing
 
 To use a different Steam game for the inventory, simple change the app id on line 3.
@@ -26,14 +24,10 @@ $query = "http://steamcommunity.com/id/".$id."/inventory/json/440/2/";
 ``` php
 <?php
 
-function getUserInventory($id, $app = 730) {
-    $url = "http://steamcommunity.com/id/" . $id . "/inventory/json/" . $app . "/2/";
-    $res = file_get_contents($url);
-    $data = json_decode($res, true);
-    return $data["rgDescriptions"];
-}
-
-$items = getUserInventory("m0nty_tv");
+$id = $_SESSION['steamid']; //Steamid Goes Here
+$query = "http://steamcommunity.com/profiles/".$id."/inventory/json/440/2/";
+$json = file_get_contents($query);
+$data = json_decode($json, true);
 
 ```
 
@@ -42,7 +36,7 @@ $items = getUserInventory("m0nty_tv");
 ``` php
 <?php
 // Steam ID of user
-$id = "m0nty_tv";
+$id = "76561198076819824";
 
 // Get JSON Data from Steam API
 $json = file_get_contents("http://steamcommunity.com/id/".$id."/inventory/json/730/2/");
@@ -55,28 +49,62 @@ $items = $data["rgDescriptions"];
 
 // Log a list of the items
 foreach($items as $item) {
-    echo $item["name"] . "<br>";
-}
-```
+	$image_url = "http://cdn.steamcommunity.com/economy/image/";
 
-```
-XM1014 | Blue Spruce
-Dual Berettas | Contractor
-PP-Bizon | Urban Dashed
-MP7 | Army Recon
-SCAR-20 | Sand Mesh
-G3SG1 | Desert Storm
-MAG-7 | Metallic DDPAT
-Operation Vanguard Weapon Case
-Huntsman Weapon Case
-MP9 | Dart
-Operation Breakout Weapon Case
-AK-47 | Redline
-M4A1-S | Guardian
-Souvenir MAG-7 | Irradiated Alert
-P250 | Supernova
-StatTrak™ Galil AR | Blue Titanium
-Operation Vanguard Challenge Coin
+	if($item["icon_url"]) {
+		$image_url = "http://cdn.steamcommunity.com/economy/image/".$item["icon_url"];
+	}
+	$classid = $item['classid'];
+	$defindex = $item['app_data']['def_index'];
+	$flag_cannot_trade = $item['tradable'];
+	$flag_cannot_trade = getTradable($flag_cannot_trade);
+	$quality = $item['app_data']['quality'];
+	$quality = getQuality($quality);
+	$craftable = $item['descriptions'][7]['value'];
+	$craftable = getCraftable($craftable);
+	?>
+	<a href="https://steamcommunity.com/profiles/<?PHP echo $_SESSION['steamid']?>/inventory/#440_2_<?PHP echo $classid?>"class="card <?PHP echo $quality?> <?PHP echo $flag_cannot_trade?>" style="width:100px">
+			<img class="card-img-top imagery <?PHP echo $defindex?>" src="<?PHP echo $image_url?>" alt="Card image"/>
+<div class="card bg-info" style="font-size:20px"></div></a> 
+<?PHP
+}
+	function getCraftable($craftable)
+    {
+		if($craftable == "( Not Usable in Crafting )")
+			return "Not_Craftable";
+	}
+	function getTradable($flag_cannot_trade)
+   	{
+		if ($flag_cannot_trade == 0)
+            return "Not_Tradable";
+		}
+    function getQuality($quality)
+    {
+        if ($quality == 1)
+            return "Genuine";
+        if ($quality == 3)
+            return "Vintage";
+        if ($quality == 5)
+            return "Unusual";
+        if ($quality == 6)
+            return "Unique";
+        if ($quality == 7)
+            return "Community";
+        if ($quality == 9)
+            return "Self-Made";
+        if ($quality == 11)
+            return "Strange";
+        if ($quality == 13)
+            return "Haunted";
+		if ($quality == 13)
+			return "Normal";		
+		if ($quality == 13)
+			return "Collectors";
+		if ($quality == 13)
+			return "Decorated";
+		if ($quality == 13)
+			return "Valve";
+    }
 ```
 
 ### $item
