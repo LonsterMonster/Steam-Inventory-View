@@ -1,0 +1,47 @@
+
+.Genuine{
+	background-color:#4D7455;
+}
+
+.Vintage{
+	background-color:#476291;
+}
+
+.Unusual{
+	background-color:#8650AC;
+}
+
+.Unique{
+	background-color:#FFD700;
+}
+
+.Community{
+	background-color:#70B04A;
+}
+
+.Self-Made{
+	background-color:#70B04A;
+}
+
+.Strange{
+	background-color:#CF6A32;
+}
+
+.Haunted{
+	background-color:#38F3AB;
+}
+.Normal{
+	background-color:#B2B2B2;
+}
+.Collectors{
+	background-color:#AA0000;
+}
+.Decorated{
+	background-color:#FAFAFA;
+}
+.Valve{
+	background-color:#A50F79;
+}
+.Not_Tradable {
+    box-shadow: 2px 2px 5px red;
+}
