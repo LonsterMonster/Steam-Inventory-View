@@ -1,6 +1,6 @@
 <?php
 $id = "";//Your steamidgoes here
-$query = "http://steamcommunity.com/id/".$id."/inventory/json/440/2/";
+$query = "http://steamcommunity.com/profiles/".$id."/inventory/json/440/2/";
 $json = file_get_contents($query);
 $data = json_decode($json, true);
 
