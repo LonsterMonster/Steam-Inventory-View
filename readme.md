@@ -5,7 +5,7 @@
 
 A php-powered web page that shows a Steam user's Counter Strike: Global Offensive items.
 
-![](http://i.imgur.com/z0daY2d.jpg)
+![](https://imgur.com/a/R2sEi9l)
 
 ## Hacking / Changing
 
