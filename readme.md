@@ -19,7 +19,7 @@ $query = "http://steamcommunity.com/id/".$id."/inventory/json/730/2/";
 $query = "http://steamcommunity.com/id/".$id."/inventory/json/440/2/";
 ```
 
-![](http://i.imgur.com/LpVHXZv.jpg)
+![](https://i.imgur.com/28V8NWr.png)
 
 ## Helper Function
 
