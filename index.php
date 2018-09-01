@@ -1,6 +1,6 @@
 <?php
-$id = str_replace("/", "", $_SERVER["QUERY_STRING"]);
-$query = "http://steamcommunity.com/profiles/".$id."/inventory/json/730/2/";
+$id = "";//Your steamidgoes here
+$query = "http://steamcommunity.com/id/".$id."/inventory/json/440/2/";
 $json = file_get_contents($query);
 $data = json_decode($json, true);
 
@@ -16,7 +16,6 @@ $items = $data["rgDescriptions"];
 	<head>
 
 		<meta charset="utf-8">
-		<title><?php echo $id ?>'s Profile</title>
 
 		<style>
 		@import url(http://fonts.googleapis.com/css?family=Open+Sans);
@@ -67,31 +66,57 @@ $items = $data["rgDescriptions"];
 
 	</head>
 	<body>
-
-		<h1><strong><?php echo $id; ?></strong>'s Profile</h1>
-
-		<h4>Built by <a href="http://github.com/montyanderson">@montyanderson</a></h4>
-
-		<section id="items">
 <?php
 foreach($items as $item) {
 	$image_url = "http://cdn.steamcommunity.com/economy/image/";
 
-	if($item["icon_url_large"]) {
-		$image_url = $item["icon_url_large"];
-	} else {
-		$image_url = $item["icon_url"];
+	if($item["icon_url"]) {
+		$image_url = "http://cdn.steamcommunity.com/economy/image/".$item["icon_url"];
 	}
-
-	$hash = str_replace("+", "%20", urlencode($item["market_hash_name"]));
-	echo "<a href='http://steamcommunity.com/market/listings/730/$hash'>" . PHP_EOL;
-	echo "<img class='item";
-	if(substr($item["name"], 0, 4) == "Stat") echo " stattrack ";
-	echo "' src='http://cdn.steamcommunity.com/economy/image/$image_url' />";
-	echo "</a>" . PHP_EOL;
-
-	echo PHP_EOL;
+	$classid = $item['classid'];
+	$defindex = $item['app_data']['def_index'];
+	$flag_cannot_trade = $item['tradable'];
+	$flag_cannot_trade = getTradable($flag_cannot_trade);
+	$quality = $item['app_data']['quality'];
+	$quality = getQuality($quality);
+	?>
+	<a href="https://steamcommunity.com/profiles/<?PHP echo $_SESSION['steamid']?>/inventory/#440_2_<?PHP echo $classid?>"class="card <?PHP echo $quality?> <?PHP echo $flag_cannot_trade?>" style="width:100px">
+			<img class="card-img-top imagery <?PHP echo $defindex?>" src="<?PHP echo $image_url?>" alt="Card image"/>
+<div class="card bg-info" style="font-size:20px"></div></a> 
+<?PHP
 }
+	function getTradable($flag_cannot_trade)
+   	{
+		if ($flag_cannot_trade == 0)
+            return "Not_Tradable";
+		}
+    function getQuality($quality)
+    {
+        if ($quality == 1)
+            return "Genuine";
+        if ($quality == 3)
+            return "Vintage";
+        if ($quality == 5)
+            return "Unusual";
+        if ($quality == 6)
+            return "Unique";
+        if ($quality == 7)
+            return "Community";
+        if ($quality == 9)
+            return "Self-Made";
+        if ($quality == 11)
+            return "Strange";
+        if ($quality == 13)
+            return "Haunted";
+		if ($quality == 13)
+			return "Normal";		
+		if ($quality == 13)
+			return "Collectors";
+		if ($quality == 13)
+			return "Decorated";
+		if ($quality == 13)
+			return "Valve";
+    }
 ?>
 		</section>
 	</body>
